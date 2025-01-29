@@ -1,7 +1,16 @@
+import wordBank from "../data/wordBank.json";
+
 export enum letterStatus {
   correct = "correct",
   present = "present",
   absent = "absent",
+}
+
+export const randomWord = getRandomWord();
+console.log("current word:", randomWord);
+
+export function getRandomWord(): string {
+  return wordBank[Math.floor(Math.random() * wordBank.length)];
 }
 
 export function compareGuess(word: string, guess: string): letterStatus[] {

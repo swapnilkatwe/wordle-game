@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { compareGuess } from "./utils";
+import { compareGuess, getRandomWord } from "./utils";
 
+// COMPARE GUESS TESTS
 describe("compareGuess", () => {
   it("should return correct letter status for each letter in the guess", () => {
     const word = "ehlla";
@@ -43,5 +44,14 @@ describe("compareGuess", () => {
     const guess = "allol";
     const expected = ["absent", "absent", "correct", "correct", "absent"];
     expect(compareGuess(word, guess)).toEqual(expected);
+  });
+});
+
+// RANDOM WORD TEST
+describe("getRandomWord", () => {
+  it("should return a valid random word from the word bank", () => {
+    const word = getRandomWord();
+    expect(word).toBeDefined();
+    expect(word.length).toEqual(5);
   });
 });

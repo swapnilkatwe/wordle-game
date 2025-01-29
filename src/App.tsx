@@ -22,13 +22,13 @@ function App() {
 
       {/* Render Grid */}
       <main className="grid grid-rows-5 max-w-md mx-auto mt-10">
-        <GridRow word="" />
-        <GridRow word="Frui" />
-        <GridRow word="Fruit" />
-        <GridRow word="Fruit" />
-        <GridRow word="Fruit" />
+        <GridRow word="apple" />
+        <GridRow word="qrstu" />
+        <GridRow word="abcde" />
+        <GridRow word="ahijk" />
+        <GridRow word="a" />
       </main>
-      
+
       {/* Render Keyboard */}
       <div className="my-10 justify-center max-w-md mx-auto">
         {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
