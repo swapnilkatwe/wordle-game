@@ -13,7 +13,6 @@ const caracterStateStyle = {
 
 
 const Cell = ({character, state}: Props) => {
-    console.log(state);
     
     const stateStyles = state ? caracterStateStyle[state] : "bg-white border-slate-200"
     return (
