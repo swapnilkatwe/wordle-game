@@ -24,7 +24,7 @@ describe("App", () => {
     expect(keys).toHaveLength(28); // A-Z keys, backspace, and enter
   });
 
-  it.todo("updates the grid when typing letters", async () => {
+  it("updates the grid when typing letters", async () => {
     render(<App />);
     const keys = screen.getByText("A");
     const firstCell = screen.getAllByRole("textbox")[0];
@@ -32,7 +32,7 @@ describe("App", () => {
     expect(firstCell).toHaveValue("A");
   });
 
-  it.todo("dose not allow to enter more than 5 characters", () => {
+  it("dose not allow to enter more than 5 characters", () => {
     render(<App />);
     const keys = ["A", "B", "C", "D", "E"].map((letter) =>
       screen.getByText(letter)
@@ -41,19 +41,23 @@ describe("App", () => {
     const extraKey = screen.getByText("F");
     userEvent.click(extraKey);
     const row = screen.getAllByRole("textbox").slice(0, 5);
-    expect(row.map((cell) => cell.value)).not.toContain("F");
+    expect(row.map((cell) => (cell as HTMLInputElement).value)).not.toContain("F");
   });
   
-  it.todo("clears each cell when clicking on backspace", async () => {
+  it("clears each cell when clicking on backspace", async () => {
     render(<App />);
     const keys = ["A", "B", "C", "D", "E"].map((letter) =>
       screen.getByText(letter)
     );
+
     keys.forEach((key) => userEvent.click(key));
     const backspace = screen.getByText("Backspace");
     await userEvent.click(backspace);
+    // screen.debug();
 
-    const row = screen.getAllByRole("textbox").slice(0, 5);
-    expect(row.map((cell) => cell.value)).toEqual(["A", "B", "C", "D", ""]);
+    const row = screen.getAllByTestId("textbox").slice(0, 5);
+    // console.log("Row found:", row);
+    
+    expect(row.map((cell) => (cell as HTMLInputElement).value)).toEqual(["A", "B", "C", "D", ""]);
   });
 });

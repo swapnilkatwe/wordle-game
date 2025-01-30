@@ -35,20 +35,28 @@ function App() {
 
   const handleEnter = (word: string) => {
     console.log("Entered: ", word)
+    addGuessToStore(word);
   };
 
   // HANDLE INPUT CHANGE
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newGuess = e.target.value;
-
-    // ADD GUESS TO STORE IF VALID
-    if (newGuess.length === 5 && wordleStorage.guesses.length < GUESS_LIMIT) {
-      wordleStorage.addGuess(newGuess);
-      setGuess("");
+    
+    if(addGuessToStore(newGuess)) {
       return;
     }
     setGuess(e.target.value);
   };
+
+  function addGuessToStore(newGuess: string) {
+     // ADD GUESS TO STORE IF VALID
+     if (newGuess.length === 5 && wordleStorage.guesses.length < GUESS_LIMIT) {
+      wordleStorage.addGuess(newGuess);
+      setGuess("");
+      return true;
+    }
+    return false;
+  }
 
   return (
     <>
@@ -58,7 +66,7 @@ function App() {
           <input className="border" type="text" value={guess} onChange={handleChange} />
         </div>
       </header>
-
+  
 
       {/* Render Grid */}
       <main className="grid grid-rows-5 max-w-md mx-auto mt-10">

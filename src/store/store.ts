@@ -11,13 +11,12 @@ export const useWordleStore = create<StoreState>()(
     persist(
         (set) => ({
             answerWord: getRandomWord(),
-            guesses: ["APPLE", "BANAN", "FRUIT"],
+            guesses: [],
             addGuess: (guess: string) =>
                 set((state) => ({ guesses: [...state.guesses, guess] })),
         }),
         {
             name: "wordleStorage",
-            // getStorage: () => localStorage, 
             storage: createJSONStorage(() => localStorage),
         }
     )
