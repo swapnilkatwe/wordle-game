@@ -1,25 +1,27 @@
-import { useWordleStore } from '../store/store';
-import { compareGuess } from '../utils/utils';
+import { letterStatus } from '../utils/utils';
 import Cell from './Cell';
 
 const WORD_LENGTH = 5;
 
 type Props = {
     word: string,
+    result?: letterStatus[]
 }
 
-const GridRow = ({ word = "" }: Props) => {
-    
-    const answerWord = useWordleStore((state) => state.answerWord);
+const GridRow = ({ word = "", result = [] }: Props) => {
 
     const lettersRemaining = WORD_LENGTH - word.length;
     const letters = word.split("").concat(new Array(lettersRemaining).fill(""));
-    const guessStates = compareGuess(answerWord, word);
 
+    console.log("Row Result: " + result);
     return (
         <div className="grid grid-cols-5">
             {letters.map((character, index) => (
-                <Cell key={character + index} character={character} state={guessStates[index]} />
+                /* 
+                // Result is optional and it gets loaded only after the user has made a guess
+                // If the result is not loaded, the cell will be empty and so user will not get any feedback before making a guess
+                */
+                <Cell key={character + index} character={character} state={result[index]} />
             ))}
         </div>
     )

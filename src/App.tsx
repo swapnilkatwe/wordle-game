@@ -15,14 +15,14 @@ function App() {
   let rows = [...wordleStorage.guesses];
 
   if (rows.length < GUESS_LIMIT) {
-    rows.push(guess);
+    rows.push({ guess });
   }
 
   const numberOfGuessesRemaining = GUESS_LIMIT - rows.length;
   rows = rows.concat(Array(numberOfGuessesRemaining).fill(""));
 
   const isGameOver = wordleStorage.guesses.length === GUESS_LIMIT;
-  const isGameWon = wordleStorage.guesses.includes(wordleStorage.answerWord);
+  const isGameWon = wordleStorage.guesses.map(eachGuess => eachGuess.guess).includes(wordleStorage.answerWord);
 
   // HANDLE KEY PRESS EVENTS
   const handleKeyPress = (key: string) => {
@@ -77,7 +77,7 @@ function App() {
           <div
             role="modal"
             className={isGameWon ? gameWonStyle : gameOverStyle}>
-              <p>{isGameWon ? "You Won" : "Game Over!"}</p>
+              <p>{isGameWon ? "You Won!" : "Game Over!"}</p>
               <button 
               className="bg-orange-300 hover:bg-orange-400 text-black font-bold py-2 px-4 rounded items-center justify-center mx-0.5 text-xs cursor-pointer"
               onClick={()=> {
@@ -91,8 +91,8 @@ function App() {
 
       {/* Render Grid */}
       <main className="grid grid-rows-5 max-w-md mx-auto mt-10">
-        {rows.map((word, index) => (
-          <GridRow key={index} word={word} />
+        {rows.map(({guess, result}, index) => (
+          <GridRow key={index} word={guess} result={result} />
         ))}
       </main>
 
