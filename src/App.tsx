@@ -20,6 +20,8 @@ function App() {
   const numberOfGuessesRemaining = GUESS_LIMIT - rows.length;
   rows = rows.concat(Array(numberOfGuessesRemaining).fill(""));
 
+  const isGameOver = wordleStorage.guesses.length === GUESS_LIMIT;
+
   // HANDLE KEY PRESS EVENTS
   const handleKeyPress = (key: string) => {
     console.log("Pressed: ", key);
@@ -41,16 +43,16 @@ function App() {
   // HANDLE INPUT CHANGE
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newGuess = e.target.value;
-    
-    if(addGuessToStore(newGuess)) {
+
+    if (addGuessToStore(newGuess)) {
       return;
     }
     setGuess(e.target.value);
   };
 
   function addGuessToStore(newGuess: string) {
-     // ADD GUESS TO STORE IF VALID
-     if (newGuess.length === 5 && wordleStorage.guesses.length < GUESS_LIMIT) {
+    // ADD GUESS TO STORE IF VALID
+    if (newGuess.length === 5 && wordleStorage.guesses.length < GUESS_LIMIT) {
       wordleStorage.addGuess(newGuess);
       setGuess("");
       return true;
@@ -59,14 +61,31 @@ function App() {
   }
 
   return (
-    <>
+    <div className="mx-auto max-w-md">
+      {/* Render Header */}
       <header>
         <h1 className="text-orange-500 text-center pt-10 text-3xl">Wordle Game</h1>
-        <div className="text-center pt-10">
-          <input className="border" type="text" value={guess} onChange={handleChange} />
-        </div>
+
+        {!isGameOver &&
+          <div className="text-center pt-10">
+            <input className="border" type="text" value={guess} onChange={handleChange} disabled={isGameOver} />
+          </div>}
+
+        {isGameOver &&
+          <div
+            role="modal"
+            className="mx-auto text-center text-red-500 text-2xl p-5 m-5 bg-slate-200 rounded">
+              <p>Game Over!</p>
+              <button 
+              className="bg-orange-300 hover:bg-orange-400 text-black font-bold py-2 px-4 rounded items-center justify-center mx-0.5 text-xs cursor-pointer"
+              onClick={()=> {
+                wordleStorage.newGame();
+                setGuess("");
+                }}>New Game</button>
+            </div>
+        }
       </header>
-  
+
 
       {/* Render Grid */}
       <main className="grid grid-rows-5 max-w-md mx-auto mt-10">
@@ -88,7 +107,7 @@ function App() {
         <button onClick={handleBackspace}>Backspace</button>
         <button onClick={() => { handleEnter(guess) }}>Enter</button>
       </div>
-    </>
+    </div>
   )
 }
 

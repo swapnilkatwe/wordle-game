@@ -6,6 +6,7 @@ type StoreState = {
   answerWord: string;
   guesses: string[];
   addGuess: (guess: string) => void;
+  newGame: () => void;
 };
 export const useWordleStore = create<StoreState>()(
     persist(
@@ -14,6 +15,7 @@ export const useWordleStore = create<StoreState>()(
             guesses: [],
             addGuess: (guess: string) =>
                 set((state) => ({ guesses: [...state.guesses, guess] })),
+            newGame: () => set({ answerWord: getRandomWord(), guesses: [] }),
         }),
         {
             name: "wordleStorage",
