@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { compareGuess, getRandomWord, letterStatus } from "../utils/utils";
 import { persist, createJSONStorage } from "zustand/middleware";
 
+export const WORD_LENGTH = 5;
+
 type StoreState = {
   answerWord: string;
   guesses: GuessDetails[];
