@@ -4,6 +4,7 @@ import { describe, it, expect } from "vitest";
 import '@testing-library/jest-dom';
 
 import App from "./App";
+import { useWordleStore } from "./store/store";
 
 describe("App", () => {
 
@@ -60,4 +61,27 @@ describe("App", () => {
     
     expect(row.map((cell) => (cell as HTMLInputElement).value)).toEqual(["A", "B", "C", "D", ""]);
   });
+
+  // GAME OVER TEST
+   it("should render the game over state", () => {
+        useWordleStore.setState({guesses: Array(5).fill("APPLE")});
+        render(<App />);
+        expect(screen.getByText(/game over!/i)).toBeInTheDocument();
+    }); 
+
+    // START NEW GAME TEST
+    it("should start a new game", async () => {
+        useWordleStore.setState({guesses: Array(5).fill("APPLE")});
+        render(<App />);
+        const newGameButton = screen.getByText("New Game");
+        await userEvent.click(newGameButton);
+        expect(useWordleStore.getState().guesses).toEqual([]);
+    });
+
+    // WIN GAME TEST
+    it("should win the game", async() => {
+        useWordleStore.setState({answerWord: "APPLE", guesses: ["APPLE"]});
+        render(<App />);
+        expect(screen.getByText(/you won!/i)).toBeInTheDocument();
+    })
 });
