@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { useWordleStore, WORD_LENGTH } from "../store/store";
+import { isGuessedValidWord } from "../utils/utils";
 
 export default function useGuess() {
   const [guess, setGuess] = useState<string>("");
+  const [isValidWord, setIsValidWord] = useState(true);
+
   const wordleStorage = useWordleStore();
 
   // HANDLE KEY PRESS EVENTS
@@ -31,11 +34,15 @@ export default function useGuess() {
     // ADD GUESS TO STORE IF VALID
     if (
       newGuess.length === WORD_LENGTH &&
-      wordleStorage.guesses.length < WORD_LENGTH
+      wordleStorage.guesses.length < WORD_LENGTH && 
+      isGuessedValidWord(newGuess)
     ) {
       wordleStorage.addGuess(newGuess);
+      setIsValidWord(true);
       setGuess("");
       return true;
+    } else {
+      setIsValidWord(false);
     }
     return false;
   }
@@ -61,5 +68,5 @@ export default function useGuess() {
     };
   }, [guess]);
 
-  return { guess, setGuess, handleKeyPress, handleEnter, handleBackspace };
+  return { guess, setGuess, isValidWord, setIsValidWord, handleKeyPress, handleEnter, handleBackspace };
 }

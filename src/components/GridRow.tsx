@@ -5,17 +5,18 @@ const WORD_LENGTH = 5;
 
 type Props = {
     word: string,
-    result?: letterStatus[]
+    result?: letterStatus[],
+    animateRowCss: string
 }
 
-const GridRow = ({ word = "", result = [] }: Props) => {
+const GridRow = ({ word = "", result = [], animateRowCss = "" }: Props) => {
 
     const lettersRemaining = WORD_LENGTH - word.length;
     const letters = word.split("").concat(new Array(lettersRemaining).fill(""));
 
     console.log("Row Result: " + result);
     return (
-        <div className="grid grid-cols-5">
+        <div className={`grid grid-cols-5 ${animateRowCss}`}>
             {letters.map((character, index) => (
                 /* 
                 // Result is optional and it gets loaded only after the user has made a guess
