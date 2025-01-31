@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { compareGuess, getRandomWord } from "./utils";
+import { compareGuess, getRandomWord, isGuessedValidWord } from "./utils";
 
 // COMPARE GUESS TESTS
 describe("compareGuess", () => {
@@ -53,5 +53,16 @@ describe("getRandomWord", () => {
     const word = getRandomWord();
     expect(word).toBeDefined();
     expect(word.length).toEqual(5);
+  });
+});
+
+
+describe("user guess word",()=> {
+  it("should be a valid word",()=>{
+    expect(isGuessedValidWord("APPLE")).toBeTruthy();
+  });
+
+  it("should be a Invalid word",()=>{
+    expect(isGuessedValidWord("AAAAA")).not.toBeTruthy();
   });
 });

@@ -36,3 +36,6 @@ export function compareGuess(word: string, guess: string): letterStatus[] {
   });
 }
 
+export function isGuessedValidWord(word: string): boolean {
+  return wordBank.includes(word.toLowerCase());
+}
