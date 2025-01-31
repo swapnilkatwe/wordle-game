@@ -1,6 +1,7 @@
 import { useState } from "react";
 import GridRow from "./components/GridRow";
 import { useWordleStore } from "./store/store";
+import { gameOverStyle, gameWonStyle } from "./utils/utils";
 
 const GUESS_LIMIT = 5;
 
@@ -21,6 +22,7 @@ function App() {
   rows = rows.concat(Array(numberOfGuessesRemaining).fill(""));
 
   const isGameOver = wordleStorage.guesses.length === GUESS_LIMIT;
+  const isGameWon = wordleStorage.guesses.includes(wordleStorage.answerWord);
 
   // HANDLE KEY PRESS EVENTS
   const handleKeyPress = (key: string) => {
@@ -66,16 +68,16 @@ function App() {
       <header>
         <h1 className="text-orange-500 text-center pt-10 text-3xl">Wordle Game</h1>
 
-        {!isGameOver &&
+        {!isGameOver && !isGameWon &&
           <div className="text-center pt-10">
             <input className="border" type="text" value={guess} onChange={handleChange} disabled={isGameOver} />
           </div>}
 
-        {isGameOver &&
+        {(isGameOver || isGameWon) &&
           <div
             role="modal"
-            className="mx-auto text-center text-red-500 text-2xl p-5 m-5 bg-slate-200 rounded">
-              <p>Game Over!</p>
+            className={isGameWon ? gameWonStyle : gameOverStyle}>
+              <p>{isGameWon ? "You Won" : "Game Over!"}</p>
               <button 
               className="bg-orange-300 hover:bg-orange-400 text-black font-bold py-2 px-4 rounded items-center justify-center mx-0.5 text-xs cursor-pointer"
               onClick={()=> {
@@ -100,7 +102,8 @@ function App() {
           <button
             key={letter}
             className="bg-white hover:bg-gray-300 text-black font-bold py-2 px-4 rounded items-center justify-center mx-0.5 text-xs cursor-pointer"
-            onClick={() => handleKeyPress(letter)}>
+            onClick={() => handleKeyPress(letter)}
+            disabled={isGameOver || isGameWon}>
             {letter}
           </button>
         ))}
