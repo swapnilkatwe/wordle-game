@@ -9,11 +9,12 @@ export default function useGuess() {
   const wordleStorage = useWordleStore();
 
   const isGameOver = wordleStorage.guesses.length === WORD_LENGTH;
-  const isGameWon = wordleStorage.guesses.map(eachGuess => eachGuess.guess).includes(wordleStorage.answerWord);
+  const isGameWon = wordleStorage.guesses
+    .map((eachGuess) => eachGuess.guess)
+    .includes(wordleStorage.answerWord);
 
   // HANDLE KEY PRESS EVENTS
   const handleKeyPress = (key: string) => {
-    console.log("Pressed: ", key);
     if (guess.length >= WORD_LENGTH) {
       return;
     }
@@ -21,7 +22,6 @@ export default function useGuess() {
   };
 
   const handleBackspace = () => {
-    console.log("Backspace");
     if (guess.length === 0) {
       return;
     }
@@ -29,7 +29,6 @@ export default function useGuess() {
   };
 
   const handleEnter = (word: string) => {
-    console.log("Entered: ", word);
     addGuessToStore(word);
   };
 
@@ -37,7 +36,7 @@ export default function useGuess() {
     // ADD GUESS TO STORE IF VALID
     if (
       newGuess.length === WORD_LENGTH &&
-      wordleStorage.guesses.length < WORD_LENGTH && 
+      wordleStorage.guesses.length < WORD_LENGTH &&
       isGuessedValidWord(newGuess)
     ) {
       wordleStorage.addGuess(newGuess);
@@ -52,15 +51,12 @@ export default function useGuess() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      
-      if(isGameOver || isGameWon) return;
+      if (isGameOver || isGameWon) return;
 
       if (/^[a-zA-Z]$/.test(event.key)) {
         handleKeyPress(event.key.toUpperCase());
-
       } else if (event.key === "Backspace") {
         handleBackspace();
-        
       } else if (event.key === "Enter") {
         handleEnter(guess);
       }
@@ -73,5 +69,13 @@ export default function useGuess() {
     };
   }, [guess, isGameOver, isGameWon]);
 
-  return { guess, setGuess, isValidWord, setIsValidWord, handleKeyPress, handleEnter, handleBackspace };
+  return {
+    guess,
+    setGuess,
+    isValidWord,
+    setIsValidWord,
+    handleKeyPress,
+    handleEnter,
+    handleBackspace,
+  };
 }

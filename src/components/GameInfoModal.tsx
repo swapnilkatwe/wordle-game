@@ -74,7 +74,7 @@ const GameInfoModal = ({ isOpen, onClose }: Props) => {
               </p>
               <p className="flex gap-2">
                 <img src={Correct} className="h-10 w-10" />
-                E is in the word and in the correct spot.
+                is in the word and in the correct spot.
               </p>
             </div>
 

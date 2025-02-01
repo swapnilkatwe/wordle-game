@@ -1,7 +1,6 @@
-import { letterStatus } from '../utils/utils';
-import Cell from './Cell';
-
-const WORD_LENGTH = 5;
+import { letterStatus } from "../utils/utils";
+import Cell from "./Cell";
+import { WORD_LENGTH } from "../store/store.ts";
 
 type Props = {
     word: string,
@@ -14,7 +13,6 @@ const GridRow = ({ word = "", result = [], animateRowCss = "" }: Props) => {
     const lettersRemaining = WORD_LENGTH - word.length;
     const letters = word.split("").concat(new Array(lettersRemaining).fill(""));
 
-    console.log("Row Result: " + result);
     return (
         <div className={`grid grid-cols-5 ${animateRowCss}`}>
             {letters.map((character, index) => (

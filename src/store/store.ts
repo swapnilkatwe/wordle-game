@@ -22,7 +22,7 @@ export const useWordleStore = create<StoreState>()(
   persist(
     (set, get) => {
       const addGuess = (guess: string) => {
-        const result = compareGuess(guess, get().answerWord);
+        const result = compareGuess(get().answerWord, guess);
 
         const guesses = get().guesses.concat({
           guess,

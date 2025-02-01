@@ -12,8 +12,8 @@ const caracterStateStyle = {
 }
 
 
-const Cell = ({character, state}: Props) => {
-    
+const Cell = ({ character, state }: Props) => {
+
     const stateStyles = state ? caracterStateStyle[state] : "bg-white border-slate-200"
     return (
         <input

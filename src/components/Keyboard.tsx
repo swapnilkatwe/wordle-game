@@ -22,7 +22,6 @@ type Props = {
 const Keyboard = ({ onClick, isGameOver, isGameWon }: Props) => {
 
     const keyBoardLetterState = useWordleStore(state => state.keyboardLetterState);
-    console.log(keyBoardLetterState);
 
     const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
         const letter = e.currentTarget.textContent ?? "";

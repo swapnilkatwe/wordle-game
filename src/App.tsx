@@ -11,11 +11,9 @@ import QuestionIcon from "./assets/QuestionIcon.svg";
 function App() {
   const wordleStorage = useWordleStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
   const { guess, setGuess, isValidWord, setIsValidWord, handleKeyPress, handleEnter, handleBackspace } = useGuess();
 
   useEffect(() => {
-    // let id: any;
     if (!isValidWord) {
       setTimeout(() => setIsValidWord(true), 2000);
     }
