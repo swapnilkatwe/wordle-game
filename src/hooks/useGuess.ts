@@ -8,6 +8,9 @@ export default function useGuess() {
 
   const wordleStorage = useWordleStore();
 
+  const isGameOver = wordleStorage.guesses.length === WORD_LENGTH;
+  const isGameWon = wordleStorage.guesses.map(eachGuess => eachGuess.guess).includes(wordleStorage.answerWord);
+
   // HANDLE KEY PRESS EVENTS
   const handleKeyPress = (key: string) => {
     console.log("Pressed: ", key);
@@ -49,6 +52,8 @@ export default function useGuess() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      
+      if(isGameOver || isGameWon) return;
 
       if (/^[a-zA-Z]$/.test(event.key)) {
         handleKeyPress(event.key.toUpperCase());
@@ -66,7 +71,7 @@ export default function useGuess() {
     return () => {
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [guess]);
+  }, [guess, isGameOver, isGameWon]);
 
   return { guess, setGuess, isValidWord, setIsValidWord, handleKeyPress, handleEnter, handleBackspace };
 }

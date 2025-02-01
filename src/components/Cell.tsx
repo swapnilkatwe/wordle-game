@@ -20,7 +20,7 @@ const Cell = ({character, state}: Props) => {
             value={character}
             readOnly
             data-testid="textbox"
-            className={`border border-gray-300 p-2 text-center h-16 w-16 mt-4 rounded font-bold text-lg ${stateStyles}`}
+            className={`border border-gray-300 p-2 text-center h-16 w-16 m-2 rounded font-bold text-lg ${stateStyles}`}
         />)
 }
 
