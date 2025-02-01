@@ -78,10 +78,10 @@ function App() {
       <Keyboard onClick={letter => {
 
         switch (letter) {
-          case "Backspace":
+          case "BACKSPACE":
             handleBackspace();
             break;
-          case "Enter":
+          case "ENTER":
             handleEnter(guess);
             break
           default:
