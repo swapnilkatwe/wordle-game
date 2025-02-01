@@ -4,10 +4,10 @@ import GridRow from "./components/GridRow";
 import useGuess from "./hooks/useGuess";
 import { useWordleStore, WORD_LENGTH } from "./store/store";
 import { gameOverStyle, gameWonStyle } from "./utils/utils";
+import Keyboard from "./components/Keyboard";
 
 function App() {
   const wordleStorage = useWordleStore();
-  console.log("-->" + wordleStorage.answerWord);
 
   const { guess, setGuess, isValidWord, setIsValidWord, handleKeyPress, handleEnter, handleBackspace } = useGuess();
 
@@ -42,6 +42,11 @@ function App() {
             role="modal"
             className={isGameWon ? gameWonStyle : gameOverStyle}>
             <p>{isGameWon ? "You Won!" : "Game Over!"}</p>
+            {isGameOver &&
+              <p className="text-green-500">
+                <h3>Answer</h3>
+                <h1>{wordleStorage.answerWord}</h1>
+              </p>}
             <button
               className="bg-orange-300 hover:bg-orange-400 text-black font-bold py-2 px-4 rounded items-center justify-center mx-0.5 text-xs cursor-pointer"
               onClick={() => {
@@ -64,25 +69,27 @@ function App() {
 
         {!isValidWord && <h2
           className="absolute inset-x-0 mx-auto top-1/2 text-center text-red-500 text-xl bg-slate-100 w-full py-2 -left-5">
-            This Word is not in our dictionary.Please try again.
+          This Word is not in our dictionary.Please try again.
         </h2>}
 
       </main>
 
       {/* Render Keyboard */}
-      <div className="my-10 justify-center max-w-md mx-auto">
-        {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
-          <button
-            key={letter}
-            className="bg-white hover:bg-gray-300 text-black font-bold py-2 px-4 rounded items-center justify-center mx-0.5 text-xs cursor-pointer"
-            onClick={() => handleKeyPress(letter)}
-            disabled={isGameOver || isGameWon}>
-            {letter}
-          </button>
-        ))}
-        <button onClick={handleBackspace}>Backspace</button>
-        <button onClick={() => { handleEnter(guess) }}>Enter</button>
-      </div>
+      <Keyboard onClick={letter => {
+
+        switch (letter) {
+          case "Backspace":
+            handleBackspace();
+            break;
+          case "Enter":
+            handleEnter(guess);
+            break
+          default:
+            handleKeyPress(letter);
+            break;
+        }
+      }} />
+
     </div>
   )
 }
