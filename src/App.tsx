@@ -88,7 +88,8 @@ function App() {
             handleKeyPress(letter);
             break;
         }
-      }} />
+      }} isGameOver={isGameOver} 
+      isGameWon={isGameWon}/>
 
     </div>
   )

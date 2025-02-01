@@ -9,6 +9,8 @@ type StoreState = {
   guesses: GuessDetails[];
   addGuess: (guess: string) => void;
   newGame: () => void;
+  keyboardLetterState: { [letter: string]: letterStatus };
+
 };
 
 type GuessDetails = {
@@ -18,21 +20,56 @@ type GuessDetails = {
 
 export const useWordleStore = create<StoreState>()(
   persist(
-    (set) => ({
-      answerWord: getRandomWord(),
-      guesses: [],
-      addGuess: (guess: string) =>
-        set((state) => ({
-          guesses: [
-            ...state.guesses,
-            {
-              guess,
-              result: compareGuess(state.answerWord, guess),
-            },
-          ],
-        })),
-      newGame: () => set({ answerWord: getRandomWord(), guesses: [] }),
-    }),
+    (set, get) => {
+      const addGuess = (guess: string) => {
+        const result = compareGuess(guess, get().answerWord);
+
+        const guesses = get().guesses.concat({
+          guess,
+          result,
+        });
+
+        const keyboardLetterState = get().keyboardLetterState;
+        result.forEach((r, index) => {
+          const resultGuessLetter = guess[index];
+
+          const currentLetterState = keyboardLetterState[resultGuessLetter];
+          switch (currentLetterState) {
+            case letterStatus.correct:
+              break;
+            case letterStatus.present:
+              if (r === letterStatus.absent) {
+                break;
+              }
+              break;
+            default:
+              keyboardLetterState[resultGuessLetter] = r;
+              break;
+          }
+        });
+
+        set({
+          guesses,
+          keyboardLetterState,
+        });
+      };
+
+      return {
+        answerWord: getRandomWord(),
+        guesses: [],
+        keyboardLetterState: {},
+        addGuess,
+        newGame(initialRows = []) {
+          set({
+            answerWord: getRandomWord(),
+            guesses: [],
+            keyboardLetterState: {},
+          });
+
+          initialRows.forEach(addGuess);
+        },
+      };
+    },
     {
       name: "wordleStorage",
       storage: createJSONStorage(() => localStorage),
