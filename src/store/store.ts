@@ -10,7 +10,6 @@ type StoreState = {
   addGuess: (guess: string) => void;
   newGame: () => void;
   keyboardLetterState: { [letter: string]: letterStatus };
-
 };
 
 type GuessDetails = {

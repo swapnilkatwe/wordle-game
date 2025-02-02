@@ -56,13 +56,12 @@ describe("getRandomWord", () => {
   });
 });
 
-
-describe("user guess word",()=> {
-  it("should be a valid word",()=>{
+describe("user guess word", () => {
+  it("should be a valid word", () => {
     expect(isGuessedValidWord("APPLE")).toBeTruthy();
   });
 
-  it("should be a Invalid word",()=>{
+  it("should be a Invalid word", () => {
     expect(isGuessedValidWord("AAAAA")).not.toBeTruthy();
   });
 });

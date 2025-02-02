@@ -11,7 +11,15 @@ import QuestionIcon from "./assets/QuestionIcon.svg";
 function App() {
   const wordleStorage = useWordleStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const { guess, setGuess, isValidWord, setIsValidWord, handleKeyPress, handleEnter, handleBackspace } = useGuess();
+  const {
+    guess,
+    setGuess,
+    isValidWord,
+    setIsValidWord,
+    handleKeyPress,
+    handleEnter,
+    handleBackspace,
+  } = useGuess();
 
   useEffect(() => {
     if (!isValidWord) {
@@ -30,10 +38,12 @@ function App() {
   rows = rows.concat(Array(numberOfGuessesRemaining).fill(""));
 
   const isGameOver = wordleStorage.guesses.length === WORD_LENGTH;
-  const isGameWon = wordleStorage.guesses.map(eachGuess => eachGuess.guess).includes(wordleStorage.answerWord);
+  const isGameWon = wordleStorage.guesses
+    .map((eachGuess) => eachGuess.guess)
+    .includes(wordleStorage.answerWord);
 
   function handleOnCloseModal() {
-    setModalIsOpen(prev => !prev);
+    setModalIsOpen((prev) => !prev);
   }
 
   return (
@@ -45,26 +55,33 @@ function App() {
         <header>
           <div className="flex justify-between pt-7 m-5">
             <h1 className="text-orange-500 text-3xl">Wordle Game</h1>
-            <button role="info" onClick={handleOnCloseModal}>{<img src={QuestionIcon} />}</button>
+            <button role="info" onClick={handleOnCloseModal}>
+              {<img src={QuestionIcon} />}
+            </button>
           </div>
-          {(isGameOver || isGameWon) &&
+          {(isGameOver || isGameWon) && (
             <div
               role="modal"
-              className={isGameWon ? gameWonStyle : gameOverStyle}>
+              className={isGameWon ? gameWonStyle : gameOverStyle}
+            >
               <p>{isGameWon ? "You Won!" : "Game Over!"}</p>
-              {isGameOver &&
+              {isGameOver && (
                 <p className="text-green-500">
                   <h3>Answer</h3>
                   <h1>{wordleStorage.answerWord}</h1>
-                </p>}
+                </p>
+              )}
               <button
                 className="bg-orange-300 hover:bg-orange-400 text-black font-bold py-2 px-4 rounded items-center justify-center mx-0.5 text-xs cursor-pointer"
                 onClick={() => {
                   wordleStorage.newGame();
                   setGuess("");
-                }}>New Game</button>
+                }}
+              >
+                New Game
+              </button>
             </div>
-          }
+          )}
         </header>
 
         {/* Render Grid */}
@@ -74,36 +91,42 @@ function App() {
               key={index}
               word={guess}
               result={result}
-              animateRowCss={(!isValidWord && currentRowIndex === index) ? "animate-bounce" : ""} />
+              animateRowCss={
+                !isValidWord && currentRowIndex === index
+                  ? "animate-bounce"
+                  : ""
+              }
+            />
           ))}
 
-          {!isValidWord && <h2
-            className="absolute inset-x-0 mx-auto top-1/2 text-center text-red-500 text-xl bg-slate-100 w-full py-2 -left-5">
-            This Word is not in our dictionary.Please try again.
-          </h2>}
-
+          {!isValidWord && (
+            <h2 className="absolute inset-x-0 mx-auto top-1/2 text-center text-red-500 text-xl bg-slate-100 w-full py-2 -left-5">
+              This Word is not in our dictionary.Please try again.
+            </h2>
+          )}
         </main>
 
         {/* Render Keyboard */}
-        <Keyboard onClick={letter => {
-
-          switch (letter) {
-            case "BACKSPACE":
-              handleBackspace();
-              break;
-            case "ENTER":
-              handleEnter(guess);
-              break
-            default:
-              handleKeyPress(letter);
-              break;
-          }
-        }} isGameOver={isGameOver}
-          isGameWon={isGameWon} />
-
+        <Keyboard
+          onClick={(letter) => {
+            switch (letter) {
+              case "BACKSPACE":
+                handleBackspace();
+                break;
+              case "ENTER":
+                handleEnter(guess);
+                break;
+              default:
+                handleKeyPress(letter);
+                break;
+            }
+          }}
+          isGameOver={isGameOver}
+          isGameWon={isGameWon}
+        />
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

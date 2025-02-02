@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Cell from "./Cell";
 import { letterStatus } from "../utils/utils";
@@ -10,7 +10,7 @@ import Correct from "../assets/correct.png";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-}
+};
 
 const GameInfoModal = ({ isOpen, onClose }: Props) => {
   const dialog = useRef<HTMLDialogElement>(null);
@@ -28,23 +28,22 @@ const GameInfoModal = ({ isOpen, onClose }: Props) => {
   if (!isOpen) return null;
 
   return createPortal(
-
-    <dialog
-      ref={dialog}
-      onClose={onClose}
-    >
+    <dialog ref={dialog} onClose={onClose}>
       <div className="fixed inset-0 flex items-center justify-center">
         <div className="bg-white p-6 rounded-lg shadow-lg max-w-md relative">
           {/* Close Button */}
           <button
             role="close"
             onClick={onClose}
-            className="absolute top-3 right-3">
+            className="absolute top-3 right-3"
+          >
             {<img src={CloseIcon} />}
           </button>
 
           {/* Modal Title */}
-          <h1 className="text-3xl font-semibold text-center mb-3">How To Play</h1>
+          <h1 className="text-3xl font-semibold text-center mb-3">
+            How To Play
+          </h1>
 
           {/* Modal Content */}
           <p className="text-center text-gray-700">
@@ -52,9 +51,12 @@ const GameInfoModal = ({ isOpen, onClose }: Props) => {
           </p>
           <div className="mt-2">
             <p className="text-sm text-gray-500">
-              You have to guess the hidden word in 5 tries and the color of the letters changes to show how close you are.
+              You have to guess the hidden word in 5 tries and the color of the
+              letters changes to show how close you are.
             </p>
-            <h1 className="m-2">To start the game, just enter any word, for example:</h1>
+            <h1 className="m-2">
+              To start the game, just enter any word, for example:
+            </h1>
             <div className="flex justify-center mb-1">
               <Cell character="T" state={letterStatus.absent} />
               <Cell character="A" state={letterStatus.present} />
@@ -106,6 +108,6 @@ const GameInfoModal = ({ isOpen, onClose }: Props) => {
     </dialog>,
     document.getElementById("modal") as HTMLElement
   );
-}
+};
 
-export default GameInfoModal
+export default GameInfoModal;

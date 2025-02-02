@@ -1,14 +1,13 @@
 import { render, screen } from "@testing-library/react";
-import userEvent from '@testing-library/user-event';
+import userEvent from "@testing-library/user-event";
 import { describe, it, expect } from "vitest";
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 import App from "./App";
 import { useWordleStore } from "./store/store";
 import { letterStatus } from "./utils/utils";
 
 describe("App", () => {
-
   it("renders the App component", () => {
     render(<App />);
     expect(screen.getByText(/Wordle game/i)).toBeInTheDocument();
@@ -43,9 +42,11 @@ describe("App", () => {
     const extraKey = screen.getByText("F");
     userEvent.click(extraKey);
     const row = screen.getAllByRole("textbox").slice(0, 5);
-    expect(row.map((cell) => (cell as HTMLInputElement).value)).not.toContain("F");
+    expect(row.map((cell) => (cell as HTMLInputElement).value)).not.toContain(
+      "F"
+    );
   });
-  
+
   it("clears each cell when clicking on backspace", async () => {
     render(<App />);
     const keys = ["A", "B", "C", "D", "E"].map((letter) =>
@@ -59,63 +60,70 @@ describe("App", () => {
 
     const row = screen.getAllByTestId("textbox").slice(0, 5);
     // console.log("Row found:", row);
-    
-    expect(row.map((cell) => (cell as HTMLInputElement).value)).toEqual(["A", "B", "C", "D", ""]);
+
+    expect(row.map((cell) => (cell as HTMLInputElement).value)).toEqual([
+      "A",
+      "B",
+      "C",
+      "D",
+      "",
+    ]);
   });
 
   // GAME OVER TEST
-   it("should render the game over state", () => {
-        useWordleStore.setState({guesses: Array(5).fill("APPLE")});
-        render(<App />);
-        expect(screen.getByText(/game over!/i)).toBeInTheDocument();
-    }); 
+  it("should render the game over state", () => {
+    useWordleStore.setState({ guesses: Array(5).fill("APPLE") });
+    render(<App />);
+    expect(screen.getByText(/game over!/i)).toBeInTheDocument();
+  });
 
-    // START NEW GAME TEST
-    it("should start a new game", async () => {
-        useWordleStore.setState({guesses: Array(5).fill("APPLE")});
-        render(<App />);
-        const newGameButton = screen.getByText("New Game");
-        await userEvent.click(newGameButton);
-        expect(useWordleStore.getState().guesses).toEqual([]);
+  // START NEW GAME TEST
+  it("should start a new game", async () => {
+    useWordleStore.setState({ guesses: Array(5).fill("APPLE") });
+    render(<App />);
+    const newGameButton = screen.getByText("New Game");
+    await userEvent.click(newGameButton);
+    expect(useWordleStore.getState().guesses).toEqual([]);
+  });
+
+  // WIN GAME TEST
+  it("should win the game", async () => {
+    useWordleStore.setState({ answerWord: "APPLE", guesses: [] });
+    render(<App />);
+
+    const keys = ["A", "P", "P", "L", "E"].map((letter) =>
+      screen.getByText(letter)
+    );
+
+    keys.forEach((key) => userEvent.click(key));
+    const enter = screen.getByText("Enter");
+    await userEvent.click(enter);
+    // screen.debug();
+    expect(screen.getByText(/you won!/i)).toBeInTheDocument();
+  });
+
+  // USER SHOULD NOT GET FEEDBACK BEFORE MAKING A GUESS BY CLICKING ENTER
+  it("should not show any feedback before making a guess by clicking enter", async () => {
+    useWordleStore.setState({
+      answerWord: "APPLE",
+      guesses: [{ guess: "ZZZZZ", result: Array(5).fill(letterStatus.absent) }],
     });
+    render(<App />);
 
-    // WIN GAME TEST
-    it("should win the game", async() => {
-        useWordleStore.setState({answerWord: "APPLE", guesses: []});
-        render(<App />);
+    const keys = ["A", "P", "P", "L", "E"].map((letter) =>
+      screen.getByText(letter)
+    );
+    keys.forEach((key) => userEvent.click(key));
 
-        const keys = ["A", "P", "P", "L", "E"].map((letter) =>
-          screen.getByText(letter)
-        );
-    
-        keys.forEach((key) => userEvent.click(key));
-        const enter = screen.getByText("Enter");
-        await userEvent.click(enter);
-        // screen.debug();
-        expect(screen.getByText(/you won!/i)).toBeInTheDocument();
-    })
+    // Result empty before the guess is made
+    const guess = useWordleStore.getState().guesses;
+    expect(guess.length).toEqual(1);
 
-    // USER SHOULD NOT GET FEEDBACK BEFORE MAKING A GUESS BY CLICKING ENTER
-    it("should not show any feedback before making a guess by clicking enter", async () => {
-        useWordleStore.setState({answerWord: "APPLE", guesses: [{guess: "ZZZZZ", result: Array(5).fill(letterStatus.absent)}]});
-        render(<App />);
+    // Result updated after the guess is made
+    const enter = screen.getByText("Enter");
+    await userEvent.click(enter);
 
-        const keys = ["A", "P", "P", "L", "E"].map((letter) =>
-          screen.getByText(letter)
-        );
-        keys.forEach((key) => userEvent.click(key));
-        
-        // Result empty before the guess is made
-        const guess = useWordleStore.getState().guesses;
-        expect(guess.length).toEqual(1);
-
-        // Result updated after the guess is made
-        const enter = screen.getByText("Enter");
-        await userEvent.click(enter);
-
-        const secondGuess = useWordleStore.getState().guesses;
-        expect(secondGuess.length).toEqual(2);
-    });
-
-
+    const secondGuess = useWordleStore.getState().guesses;
+    expect(secondGuess.length).toEqual(2);
+  });
 });

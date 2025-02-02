@@ -6,9 +6,10 @@ export enum letterStatus {
   absent = "absent",
 }
 
-export const gameWonStyle = "mx-auto text-center text-green-500 text-2xl p-5 m-5 bg-slate-200 rounded";
-export const gameOverStyle = "mx-auto text-center text-red-500 text-2xl p-5 m-5 bg-slate-200 rounded";
-
+export const gameWonStyle =
+  "mx-auto text-center text-green-500 text-2xl p-5 m-5 bg-slate-200 rounded";
+export const gameOverStyle =
+  "mx-auto text-center text-red-500 text-2xl p-5 m-5 bg-slate-200 rounded";
 
 export function getRandomWord(): string {
   return wordBank[Math.floor(Math.random() * wordBank.length)].toUpperCase();
