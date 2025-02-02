@@ -79,7 +79,10 @@ describe("App", () => {
 
   // START NEW GAME TEST
   it("should start a new game", async () => {
-    useWordleStore.setState({ guesses: Array(5).fill("APPLE") });
+    useWordleStore.setState({
+      answerWord: "APPLE",
+      guesses: [{ guess: "APPLE", result: [] }],
+    });
     render(<App />);
     const newGameButton = screen.getByText("New Game");
     await userEvent.click(newGameButton);

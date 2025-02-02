@@ -6,6 +6,7 @@ import { useWordleStore, WORD_LENGTH } from "./store/store";
 import Keyboard from "./components/Keyboard";
 import GameInfoModal from "./components/GameInfoModal";
 import Header from "./components/Header";
+import Result from "./components/Result";
 
 function App() {
   const wordleStorage = useWordleStore();
@@ -58,9 +59,16 @@ function App() {
           setGuess={setGuess}
           handleOnCloseModal={handleOnCloseModal}
         />
-
-        {/* Render Grid */}
+        {/* Render Results */}
+        {(isGameOver || isGameWon) && (
+          <Result
+            isGameOver={isGameOver}
+            isGameWon={isGameWon}
+            setGuess={setGuess}
+          />
+        )}
         <main className="relative grid grid-rows-5 max-w-md mx-auto m-5">
+          {/* Render Grid */}
           {rows.map(({ guess, result }, index) => (
             <GridRow
               key={index}
@@ -75,8 +83,8 @@ function App() {
           ))}
 
           {!isValidWord && (
-            <h2 className="absolute inset-x-0 mx-auto top-1/2 text-center text-red-500 text-xl bg-slate-100 w-full py-2 -left-5">
-              This Word is not in our dictionary.Please try again.
+            <h2 className="absolute inset-x-0 mx-auto top-1/2 text-center text-rose-700 text-xl bg-slate-100 w-full py-2 rounded">
+              Not a word in saved list. Please try again!
             </h2>
           )}
         </main>
