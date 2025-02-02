@@ -3,10 +3,9 @@ import { useEffect } from "react";
 import GridRow from "./components/GridRow";
 import useGuess from "./hooks/useGuess";
 import { useWordleStore, WORD_LENGTH } from "./store/store";
-import { gameOverStyle, gameWonStyle } from "./utils/utils";
 import Keyboard from "./components/Keyboard";
 import GameInfoModal from "./components/GameInfoModal";
-import QuestionIcon from "./assets/QuestionIcon.svg";
+import Header from "./components/Header";
 
 function App() {
   const wordleStorage = useWordleStore();
@@ -48,44 +47,20 @@ function App() {
 
   return (
     <>
+      {/* Game Information Modal */}
       <GameInfoModal isOpen={modalIsOpen} onClose={handleOnCloseModal} />
 
       <div className="mx-auto max-w-md">
         {/* Render Header */}
-        <header>
-          <div className="flex justify-between pt-7 m-5">
-            <h1 className="text-orange-500 text-3xl">Wordle Game</h1>
-            <button role="info" onClick={handleOnCloseModal}>
-              {<img src={QuestionIcon} />}
-            </button>
-          </div>
-          {(isGameOver || isGameWon) && (
-            <div
-              role="modal"
-              className={isGameWon ? gameWonStyle : gameOverStyle}
-            >
-              <p>{isGameWon ? "You Won!" : "Game Over!"}</p>
-              {isGameOver && (
-                <p className="text-green-500">
-                  <h3>Answer</h3>
-                  <h1>{wordleStorage.answerWord}</h1>
-                </p>
-              )}
-              <button
-                className="bg-orange-300 hover:bg-orange-400 text-black font-bold py-2 px-4 rounded items-center justify-center mx-0.5 text-xs cursor-pointer"
-                onClick={() => {
-                  wordleStorage.newGame();
-                  setGuess("");
-                }}
-              >
-                New Game
-              </button>
-            </div>
-          )}
-        </header>
+        <Header
+          isGameOver={isGameOver}
+          isGameWon={isGameWon}
+          setGuess={setGuess}
+          handleOnCloseModal={handleOnCloseModal}
+        />
 
         {/* Render Grid */}
-        <main className="relative grid grid-rows-5 max-w-md mx-auto mt-10">
+        <main className="relative grid grid-rows-5 max-w-md mx-auto m-5">
           {rows.map(({ guess, result }, index) => (
             <GridRow
               key={index}
