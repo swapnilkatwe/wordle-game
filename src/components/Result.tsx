@@ -13,7 +13,7 @@ function Result({ isGameOver, isGameWon, setGuess }: Props) {
   return (
     <div role="modal" className={isGameWon ? gameWonStyle : gameOverStyle}>
       <p>{isGameWon ? "You Won!" : "Game Over!"}</p>
-      {isGameOver && (
+      {isGameOver && !isGameWon && (
         <p className="text-green-500">Your Answer: {wordleStore.answerWord}</p>
       )}
       <button

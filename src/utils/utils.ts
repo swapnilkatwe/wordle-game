@@ -16,25 +16,35 @@ export function getRandomWord(): string {
 }
 
 export function compareGuess(word: string, guess: string): letterStatus[] {
-  const wordArray = word.split("");
-  const guessArray = guess.split("");
+  const result: letterStatus[] = new Array(guess.length).fill(
+    letterStatus.absent
+  );
+  const answerLetterCount: Record<string, number> = {};
 
-  return guessArray.map((letter, index) => {
-    const guessLetterCount = guessArray.filter((l) => l === letter).length;
-    const wordLetterCount = wordArray.filter((l) => l === letter).length;
+  // Count occurrences of each letter in the answer
+  for (const letter of word) {
+    answerLetterCount[letter] = (answerLetterCount[letter] || 0) + 1;
+  }
 
-    if (guessLetterCount <= wordLetterCount) {
-      return letter === wordArray[index]
-        ? letterStatus.correct
-        : letterStatus.present;
-    } else if (guessLetterCount > wordLetterCount) {
-      return letter === wordArray[index]
-        ? letterStatus.correct
-        : letterStatus.absent;
-    } else {
-      return letterStatus.absent;
+  // Check for "correct" letters
+  for (let i = 0; i < guess.length; i++) {
+    if (guess[i] === word[i]) {
+      result[i] = letterStatus.correct;
+      answerLetterCount[guess[i]]! -= 1;
     }
-  });
+  }
+
+  // Check for "present" letters
+  for (let i = 0; i < guess.length; i++) {
+    if (result[i] === "correct") continue;
+
+    if (word.includes(guess[i]) && answerLetterCount[guess[i]]! > 0) {
+      result[i] = letterStatus.present;
+      answerLetterCount[guess[i]]! -= 1;
+    }
+  }
+
+  return result;
 }
 
 export function isGuessedValidWord(word: string): boolean {
