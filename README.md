@@ -1,55 +1,44 @@
-# Wordle game:
-Using vite, vitest, React-Testing-Library, TypeScript
+# Wordle Game - A Fun Word Guessing Game
+This Game is a replica of Wordle.
+You can find real Wordle here: [wordle](https://www.nytimes.com/games/wordle/index.html) or [wordly](https://wordly.org/)
 
-# React + TypeScript + Vite
+A **Wordle game** game built with **React, TypeScript, and Tailwind CSS**.
+- This project follows **Test-Driven Development (TDD)** principles.
+- Includes state management with **Zustand**.
 
+## Features
+✅ **Guess the 5-letter word** within 5 attempts  
+✅ **Letter feedback system** (🟩 Correct, 🟨 Present, ⬜ Absent)  
+✅ **Keyboard input & on-screen virtual keyboard**  
+✅ **Game result tracking & win/lose messages**  
+✅ **Persisting state with Zustand**  
+✅ **Responsive design using Tailwind CSS**  
+✅ **Fully tested with Vitest & React Testing Library**  
 
+## 🛠️ Tech Stack
+- **Frontend:** React, TypeScript, Tailwind CSS  
+- **State Management:** Zustand  
+- **Testing:** Vitest, React Testing Library  
+- **Build Tool:** Vite  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Test-Driven Development (TDD)
+- This project follows TDD principles, ensuring high test coverage.
+- Test cases include UI rendering, keyboard input, word validation, and modal interactions.
 
-Currently, two official plugins are available:
+## 📸 Screenshot  
+<img width="850" alt="wordle game" src="https://github.com/user-attachments/assets/4bb6fdc6-e136-4a3c-828b-232b74d6c88e" />
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📜 Installation & Setup
+Follow these steps to run the project locally:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. **Clone the repository**  
+   ```sh
+   git clone https://github.com/swapnilkatwe/wordle-game.git
+   cd wordle-game
+   ```
+2. Install dependencies
+    - npm install
+3. Run the development server
+    - npm run dev
+4. Run tests
+    - npm run test
