@@ -1,8 +1,9 @@
-# Wordle Game - A Fun Word Guessing Game
+# WordleGame - A Fun Word Guessing Game
 This Game is a replica of Wordle.
 You can find real Wordle here: [wordle](https://www.nytimes.com/games/wordle/index.html) or [wordly](https://wordly.org/)
-
+-
 A **Wordle game** game built with **React, TypeScript, and Tailwind CSS**.
+
 - This project follows **Test-Driven Development (TDD)** principles.
 - Includes state management with **Zustand**.
 
