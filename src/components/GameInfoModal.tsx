@@ -47,7 +47,7 @@ const GameInfoModal = ({ isOpen, onClose }: Props) => {
 
           {/* Modal Content */}
           <p className="text-center text-gray-700">
-            Guess the Wordle in 5 tries.
+            Guess the Word in 5 tries.
           </p>
           <div className="mt-2">
             <p className="text-sm text-gray-500">

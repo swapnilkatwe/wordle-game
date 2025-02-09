@@ -11,7 +11,9 @@ const Header = ({ handleOnCloseModal }: Props) => {
   return (
     <header className="pt-7">
       <div className="flex relative">
-        <h1 className=" text-black text-3xl w-full text-center">Wordle Game</h1>
+        <h1 className=" text-black text-3xl w-full text-center">
+          WordleoReplica
+        </h1>
         <button
           role="info"
           className="absolute right-0"
