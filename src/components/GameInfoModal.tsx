@@ -29,8 +29,8 @@ const GameInfoModal = ({ isOpen, onClose }: Props) => {
 
   return createPortal(
     <dialog ref={dialog} onClose={onClose}>
-      <div className="fixed inset-0 flex items-center justify-center">
-        <div className="bg-white p-6 rounded-lg shadow-lg max-w-md relative">
+      <div className="fixed inset-0 flex items-center justify-center  bg-opacity-50 p-4">
+        <div className="bg-white p-6 rounded-lg shadow-lg max-w-md relative w-full sm:max-w-lg h-auto max-h-[90vh] overflow-y-auto">
           {/* Close Button */}
           <button
             role="close"
@@ -54,9 +54,7 @@ const GameInfoModal = ({ isOpen, onClose }: Props) => {
               You have to guess the hidden word in 5 tries and the color of the
               letters changes to show how close you are.
             </p>
-            <h1 className="m-2">
-              To start the game, just enter any word, for example:
-            </h1>
+            <h1>To start the game, just enter any word, for example:</h1>
             <div className="flex justify-center mb-1">
               <Cell character="T" state={letterStatus.absent} />
               <Cell character="A" state={letterStatus.present} />
@@ -81,7 +79,9 @@ const GameInfoModal = ({ isOpen, onClose }: Props) => {
             </div>
 
             <div className="m-3">
-              <h1>Another try to find matching letters in the target word.</h1>
+              <h1 className="text-center">
+                Another try to find matching letters in the target word.
+              </h1>
               <div className="flex justify-center">
                 <Cell character="F" state={letterStatus.correct} />
                 <Cell character="L" state={letterStatus.correct} />

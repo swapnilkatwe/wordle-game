@@ -51,7 +51,7 @@ function App() {
       {/* Game Information Modal */}
       <GameInfoModal isOpen={modalIsOpen} onClose={handleOnCloseModal} />
 
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto sm:w-full md:max-w-md min-h-screen items-center justify-center px-4">
         {/* Render Header */}
         <Header
           isGameOver={isGameOver}
