@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { compareGuess, getRandomWord, letterStatus } from "../utils/utils";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { enc, AES } from "crypto-js";
 
 export const WORD_LENGTH = 5;
 
@@ -71,7 +72,33 @@ export const useWordleStore = create<StoreState>()(
     },
     {
       name: "wordleStorage",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => ({
+        getItem: (key) => {
+          // get data
+          const encryptedData = localStorage.getItem(key);
+          // decrypt it
+          return encryptedData ? decrypt(encryptedData) : null;
+        },
+        setItem: (key, data) => {
+          // before storing it first decrypt it
+          const encryptedData = encrypt(data);
+          // now store it
+          localStorage.setItem(key, encryptedData);
+        },
+        removeItem: (key) => localStorage.removeItem(key),
+      })),
     }
   )
 );
+
+// Encryption and decription
+const secretKey = "swapnil-wordleo-game-2025";
+
+const encrypt = (data: string) => {
+  return AES.encrypt(JSON.stringify(data), secretKey).toString();
+};
+
+const decrypt = (encryptedData: string | CryptoJS.lib.CipherParams) => {
+  const bytes = AES.decrypt(encryptedData, secretKey);
+  return JSON.parse(bytes.toString(enc.Utf8));
+};
